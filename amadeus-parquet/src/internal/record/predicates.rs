@@ -1,7 +1,7 @@
 use fxhash::FxBuildHasher;
 use hashlink::linked_hash_map::LinkedHashMap;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use serde::{Serialize, Deserialize};
 
 use amadeus_types::{Bson, Date, DateTime, Decimal, Enum, Group, Json, List, Time, Value};
 

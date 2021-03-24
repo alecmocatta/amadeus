@@ -79,9 +79,9 @@ where
 
 type Error<P, E> = CsvError<E, <P as Partition>::Error, <<P as Partition>::Page as Page>::Error>;
 #[cfg(not(nightly))]
-type Output<P, Row, E> = std::pin::Pin<Box<dyn Stream<Item = Result<Row, Error<P, E>>>>>;
+type Output<P, Row: SerdeData, E> = std::pin::Pin<Box<dyn Stream<Item = Result<Row, Error<P, E>>>>>;
 #[cfg(nightly)]
-type Output<P: Partition, Row, E> = impl Stream<Item = Result<Row, Error<P, E>>>;
+type Output<P: Partition, Row: SerdeData, E> = impl Stream<Item = Result<Row, Error<P, E>>>;
 
 FnMutNamed! {
 	pub type Closure<P, Row, E> = |self|partition=> P| -> Output<P, Row, E>

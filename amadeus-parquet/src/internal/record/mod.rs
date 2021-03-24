@@ -65,12 +65,12 @@ pub use schemas::RootSchema;
 mod predicate {
 	/// This is for forward compatibility when Predicate pushdown and dynamic schemas are
 	/// implemented.
-	use serde::{Serialize, Deserialize};
+	use serde::{Deserialize, Serialize};
 	#[derive(Clone, Debug, Serialize, Deserialize)]
 	pub struct Predicate;
 }
 pub(crate) use self::predicate::Predicate;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 /// This trait is implemented on all types that can be read from/written to Parquet files.
 ///

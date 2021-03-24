@@ -267,13 +267,13 @@ fn impl_struct(
 			};
 		});
 
-        let predicate_derives = if cfg!(feature = "serde") {
-            Some(quote! {
-                #[derive(Clone, Debug, __::Serialize, __::Deserialize)]
-            })
-        } else {
-            None
-        };
+		let predicate_derives = if cfg!(feature = "serde") {
+			Some(quote! {
+				#[derive(Clone, Debug, __::Serialize, __::Deserialize)]
+			})
+		} else {
+			None
+		};
 
 		parquet_derives = Some(quote! {
 			#visibility struct #schema_name #impl_generics #where_clause_with_parquet_data {
@@ -308,7 +308,7 @@ fn impl_struct(
 			#visibility struct #reader_name #impl_generics #where_clause_with_parquet_data {
 				#(#field_names1: <#field_types1 as __::ParquetData>::Reader,)*
 			}
-            #predicate_derives
+			#predicate_derives
 			#visibility struct #predicate_name #impl_generics #where_clause_with_parquet_data {
 				#(#field_names1: __::Option<<#field_types1 as __::ParquetData>::Predicate>,)*
 			}

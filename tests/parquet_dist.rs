@@ -10,7 +10,7 @@ use std::{
 use amadeus::dist::prelude::*;
 
 fn main() {
-    return;
+	return;
 	if cfg!(miri) {
 		return;
 	}
@@ -42,9 +42,10 @@ fn main() {
 async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 	let start = SystemTime::now();
 
-	let rows = Parquet::<_, Value>::new(ParquetDirectory::new(PathBuf::from(
-		"amadeus-testing/parquet/cf-accesslogs/",
-	)), None)
+	let rows = Parquet::<_, Value>::new(
+		ParquetDirectory::new(PathBuf::from("amadeus-testing/parquet/cf-accesslogs/")),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -66,12 +67,15 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 			45_167 * 20
 		);
 
-		let rows = Parquet::<_, Value>::new(ParquetDirectory::new(S3Directory::new_with(
-			AwsRegion::UsEast1,
-			"us-east-1.data-analytics",
-			"cflogworkshop/optimized/cf-accesslogs/",
-			AwsCredentials::Anonymous,
-		)), None)
+		let rows = Parquet::<_, Value>::new(
+			ParquetDirectory::new(S3Directory::new_with(
+				AwsRegion::UsEast1,
+				"us-east-1.data-analytics",
+				"cflogworkshop/optimized/cf-accesslogs/",
+				AwsCredentials::Anonymous,
+			)),
+			None,
+		)
 		.await
 		.unwrap();
 		assert_eq!(
@@ -100,12 +104,15 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 			207_535
 		);
 
-		let rows = Parquet::<_, Value>::new(ParquetDirectory::new(S3Directory::new_with(
-			AwsRegion::UsEast1,
-			"us-east-1.data-analytics",
-			"cflogworkshop/optimized/cf-accesslogs/",
-			AwsCredentials::Anonymous,
-		)), None)
+		let rows = Parquet::<_, Value>::new(
+			ParquetDirectory::new(S3Directory::new_with(
+				AwsRegion::UsEast1,
+				"us-east-1.data-analytics",
+				"cflogworkshop/optimized/cf-accesslogs/",
+				AwsCredentials::Anonymous,
+			)),
+			None,
+		)
 		.await
 		.unwrap();
 		assert_eq!(
@@ -142,9 +149,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		valid: Option<f64>,
 		__index_level_0__: Option<i64>,
 	}
-	let rows = Parquet::<_, StockSimulatedDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/stock_simulated.parquet",
-	), None)
+	let rows = Parquet::<_, StockSimulatedDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/stock_simulated.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -155,9 +163,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		42_000
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/stock_simulated.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/stock_simulated.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -178,9 +187,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		__index_level_0__: Option<i64>,
 	}
 
-	let rows = Parquet::<_, StockSimulatedDerivedProjection1>::new(PathBuf::from(
-		"amadeus-testing/parquet/stock_simulated.parquet",
-	), None)
+	let rows = Parquet::<_, StockSimulatedDerivedProjection1>::new(
+		PathBuf::from("amadeus-testing/parquet/stock_simulated.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -191,9 +201,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		42_000
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/stock_simulated.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/stock_simulated.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -211,9 +222,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 	#[derive(Data, Clone, PartialEq, Debug)]
 	struct StockSimulatedDerivedProjection2 {}
 
-	let rows = Parquet::<_, StockSimulatedDerivedProjection2>::new(PathBuf::from(
-		"amadeus-testing/parquet/stock_simulated.parquet",
-	), None)
+	let rows = Parquet::<_, StockSimulatedDerivedProjection2>::new(
+		PathBuf::from("amadeus-testing/parquet/stock_simulated.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -224,9 +236,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		42_000
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/stock_simulated.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/stock_simulated.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -264,21 +277,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		int96_field: DateTime,
 	}
 
-	let rows =
-		Parquet::<_, TenKayVeeTwo>::new(PathBuf::from("amadeus-testing/parquet/10k-v2.parquet"), None)
-			.await
-			.unwrap();
-	assert_eq!(
-		rows.dist_stream()
-			.map(FnMut!(|row: Result<_, _>| row.unwrap()))
-			.count(pool)
-			.await,
-		10_000
-	);
-
-	let rows = Parquet::<_, TenKayVeeTwoDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/10k-v2.parquet",
-	), None)
+	let rows = Parquet::<_, TenKayVeeTwo>::new(
+		PathBuf::from("amadeus-testing/parquet/10k-v2.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -289,9 +291,26 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		10_000
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from("amadeus-testing/parquet/10k-v2.parquet"), None)
-		.await
-		.unwrap();
+	let rows = Parquet::<_, TenKayVeeTwoDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/10k-v2.parquet"),
+		None,
+	)
+	.await
+	.unwrap();
+	assert_eq!(
+		rows.dist_stream()
+			.map(FnMut!(|row: Result<_, _>| row.unwrap()))
+			.count(pool)
+			.await,
+		10_000
+	);
+
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/10k-v2.parquet"),
+		None,
+	)
+	.await
+	.unwrap();
 	assert_eq!(
 		rows.dist_stream()
 			.map(FnMut!(|row: Result<Value, _>| -> Value {
@@ -334,9 +353,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		timestamp_col: Option<DateTime>,
 	}
 
-	let rows = Parquet::<_, AlltypesDictionary>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_dictionary.parquet",
-	), None)
+	let rows = Parquet::<_, AlltypesDictionary>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_dictionary.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -347,9 +367,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		2
 	);
 
-	let rows = Parquet::<_, AlltypesDictionaryDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_dictionary.parquet",
-	), None)
+	let rows = Parquet::<_, AlltypesDictionaryDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_dictionary.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -360,9 +381,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		2
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_dictionary.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_dictionary.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -407,9 +429,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		timestamp_col: Option<DateTime>,
 	}
 
-	let rows = Parquet::<_, AlltypesPlain>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_plain.parquet",
-	), None)
+	let rows = Parquet::<_, AlltypesPlain>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_plain.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -420,9 +443,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		8
 	);
 
-	let rows = Parquet::<_, AlltypesPlainDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_plain.parquet",
-	), None)
+	let rows = Parquet::<_, AlltypesPlainDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_plain.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -433,9 +457,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		8
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_plain.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_plain.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -480,9 +505,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		timestamp_col: Option<DateTime>,
 	}
 
-	let rows = Parquet::<_, AlltypesPlainSnappy>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_plain.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, AlltypesPlainSnappy>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_plain.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -493,9 +519,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		2
 	);
 
-	let rows = Parquet::<_, AlltypesPlainSnappyDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_plain.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, AlltypesPlainSnappyDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_plain.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -506,9 +533,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		2
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/alltypes_plain.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/alltypes_plain.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -561,9 +589,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		a: Option<List<Option<List<Option<List<Option<String>>>>>>>,
 		b: i32,
 	}
-	let rows = Parquet::<_, NestedLists>::new(PathBuf::from(
-		"amadeus-testing/parquet/nested_lists.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, NestedLists>::new(
+		PathBuf::from("amadeus-testing/parquet/nested_lists.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -574,9 +603,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		3
 	);
 
-	let rows = Parquet::<_, NestedListsDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/nested_lists.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, NestedListsDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/nested_lists.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -587,9 +617,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		3
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/nested_lists.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/nested_lists.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -616,9 +647,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		b: i32,
 		c: f64,
 	}
-	let rows = Parquet::<_, NestedMaps>::new(PathBuf::from(
-		"amadeus-testing/parquet/nested_maps.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, NestedMaps>::new(
+		PathBuf::from("amadeus-testing/parquet/nested_maps.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -629,9 +661,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		6
 	);
 
-	let rows = Parquet::<_, NestedMapsDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/nested_maps.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, NestedMapsDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/nested_maps.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -642,9 +675,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		6
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/nested_maps.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/nested_maps.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -710,9 +744,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		f: String,
 	}
 
-	let rows = Parquet::<_, Nonnullable>::new(PathBuf::from(
-		"amadeus-testing/parquet/nonnullable.impala.parquet",
-	), None)
+	let rows = Parquet::<_, Nonnullable>::new(
+		PathBuf::from("amadeus-testing/parquet/nonnullable.impala.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -723,9 +758,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		1
 	);
 
-	let rows = Parquet::<_, NonnullableDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/nonnullable.impala.parquet",
-	), None)
+	let rows = Parquet::<_, NonnullableDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/nonnullable.impala.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -736,9 +772,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		1
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/nonnullable.impala.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/nonnullable.impala.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -783,9 +820,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 			Option<HashMap<String, Option<(Option<(Option<List<Option<f64>>>,)>,)>>>,
 		)>,
 	}
-	let rows = Parquet::<_, Nullable>::new(PathBuf::from(
-		"amadeus-testing/parquet/nullable.impala.parquet",
-	), None)
+	let rows = Parquet::<_, Nullable>::new(
+		PathBuf::from("amadeus-testing/parquet/nullable.impala.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -796,9 +834,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		7
 	);
 
-	let rows = Parquet::<_, NullableDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/nullable.impala.parquet",
-	), None)
+	let rows = Parquet::<_, NullableDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/nullable.impala.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -809,9 +848,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		7
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/nullable.impala.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/nullable.impala.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -832,9 +872,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 	struct NullsDerived {
 		b_struct: Option<(Option<i32>,)>,
 	}
-	let rows = Parquet::<_, Nulls>::new(PathBuf::from(
-		"amadeus-testing/parquet/nulls.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, Nulls>::new(
+		PathBuf::from("amadeus-testing/parquet/nulls.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -845,9 +886,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		8
 	);
 
-	let rows = Parquet::<_, NullsDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/nulls.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, NullsDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/nulls.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -858,9 +900,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		8
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/nulls.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/nulls.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -883,9 +926,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		#[amadeus(name = "phoneNumbers")]
 		phone_numbers: Option<(List<(i64, Option<String>)>,)>,
 	}
-	let rows = Parquet::<_, Repeated>::new(PathBuf::from(
-		"amadeus-testing/parquet/repeated_no_annotation.parquet",
-	), None)
+	let rows = Parquet::<_, Repeated>::new(
+		PathBuf::from("amadeus-testing/parquet/repeated_no_annotation.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -896,9 +940,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		6
 	);
 
-	let rows = Parquet::<_, RepeatedDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/repeated_no_annotation.parquet",
-	), None)
+	let rows = Parquet::<_, RepeatedDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/repeated_no_annotation.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -909,9 +954,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		6
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/repeated_no_annotation.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/repeated_no_annotation.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -936,9 +982,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		d: bool,
 		e: Option<List<i32>>,
 	}
-	let rows = Parquet::<_, TestDatapage>::new(PathBuf::from(
-		"amadeus-testing/parquet/datapage_v2.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, TestDatapage>::new(
+		PathBuf::from("amadeus-testing/parquet/datapage_v2.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -949,9 +996,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		5
 	);
 
-	let rows = Parquet::<_, TestDatapageDerived>::new(PathBuf::from(
-		"amadeus-testing/parquet/datapage_v2.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, TestDatapageDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/datapage_v2.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -962,9 +1010,10 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		5
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from(
-		"amadeus-testing/parquet/datapage_v2.snappy.parquet",
-	), None)
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/datapage_v2.snappy.parquet"),
+		None,
+	)
 	.await
 	.unwrap();
 	assert_eq!(
@@ -1007,10 +1056,12 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		__index_level_0__: Option<i64>,
 	}
 
-	let rows =
-		Parquet::<_, CommitsDerived>::new(PathBuf::from("amadeus-testing/parquet/commits.parquet"), None)
-			.await
-			.unwrap();
+	let rows = Parquet::<_, CommitsDerived>::new(
+		PathBuf::from("amadeus-testing/parquet/commits.parquet"),
+		None,
+	)
+	.await
+	.unwrap();
 	assert_eq!(
 		rows.dist_stream()
 			.map(FnMut!(|row: Result<_, _>| row.unwrap()))
@@ -1019,9 +1070,12 @@ async fn run<P: amadeus_core::pool::ProcessPool>(pool: &P) -> Duration {
 		14_444
 	);
 
-	let rows = Parquet::<_, Value>::new(PathBuf::from("amadeus-testing/parquet/commits.parquet"), None)
-		.await
-		.unwrap();
+	let rows = Parquet::<_, Value>::new(
+		PathBuf::from("amadeus-testing/parquet/commits.parquet"),
+		None,
+	)
+	.await
+	.unwrap();
 	assert_eq!(
 		rows.dist_stream()
 			.map(FnMut!(|row: Result<Value, _>| -> Value {
